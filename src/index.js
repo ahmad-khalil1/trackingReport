@@ -1,11 +1,16 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import "./index.css";
+import { ThemeProvider } from "@material-ui/styles";
+import { BrowserRouter as Router } from "react-router-dom";
+
 import App from "./App";
+import MainTheme from "./Themes/MainTheme";
 
 ReactDOM.render(
-  <>
-    <App />
-  </>,
+  <Router>
+    <ThemeProvider theme={MainTheme}>
+      <App />
+    </ThemeProvider>
+  </Router>,
   document.getElementById("root")
 );
