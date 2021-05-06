@@ -21,6 +21,7 @@ const useStyle = makeStyles(theme => {
       borderLeft: "3px solid #4D7CFE",
       padding: "10px 10px 10px 27px ",
       "& svg": { color: "#4D7CFE" },
+      "& span": { fontWeight: "bold" },
     },
   };
 });
@@ -51,7 +52,7 @@ const NavLinkListItem = props => {
         {icon ? (
           <ListItemIcon className={classes.iconStyle}>{icon}</ListItemIcon>
         ) : null}
-        <ListItemText>{title}</ListItemText>
+        <ListItemText primary={title} />
       </ListItem>
     </li>
   );
