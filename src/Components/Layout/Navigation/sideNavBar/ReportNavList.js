@@ -1,18 +1,17 @@
 import { List } from "@material-ui/core";
-
 import NavLinkListItem from "./NavLinkListItem";
 
 const ReportNavList = () => {
   return (
-    <List>
-      <NavLinkListItem to='operatingCost' title='Operating Cost' />
-      <NavLinkListItem to='fuelHistory' title='Fuel History' />
-      <NavLinkListItem to='cost-meter' title='Cost/Meter' />
-      <NavLinkListItem to='totalCost' title='Total Cost' />
-      <NavLinkListItem to='expenseSummery' title='Expense Summery' />
-      <NavLinkListItem to='utilization' title='Utilization' />
-      <NavLinkListItem to='maintaince' title='Maintaince' />
-      <NavLinkListItem to='service' title='Service' />
+    <List style={{ width: "100%" }}>
+      <NavLinkListItem to='/report/operatingCost' title='Operating Cost' />
+      <NavLinkListItem to='/report/fuelHistory' title='Fuel History' />
+      <NavLinkListItem to='/report/cost-meter' title='Cost/Meter' />
+      <NavLinkListItem to='/report/totalCost' title='Total Cost' />
+      <NavLinkListItem to='/report/expenseSummery' title='Expense Summery' />
+      <NavLinkListItem to='/report/utilization' title='Utilization' />
+      <NavLinkListItem to='/report/maintaince' title='Maintaince' />
+      <NavLinkListItem to='/report/service' title='Service' />
     </List>
   );
 };

@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Box, makeStyles } from "@material-ui/core";
 import SideNavBar from "./Navigation/sideNavBar/SideNavBar";
 import TopNavBar from "./Navigation/TopNavBar";
@@ -12,10 +13,15 @@ const useStyle = makeStyles({
 
 const Layout = props => {
   const classes = useStyle();
+  const [mobileOpen, setMobileOpen] = useState(false);
+
+  const toggleDrawer = _ => {
+    setMobileOpen(!mobileOpen);
+  };
   return (
     <Box className={classes.root}>
-      <TopNavBar />
-      <SideNavBar />
+      <TopNavBar handleDrawerToggle={toggleDrawer} />
+      <SideNavBar handleDrawerToggle={toggleDrawer} isMobileOpen={mobileOpen} />
       <main className={`${classes.main} ${props.className}`}>
         {props.children}
       </main>
