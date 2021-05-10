@@ -40,7 +40,7 @@ const FuelHistoryToolBar = props => {
         }}
         count={props.rowsCount}
         rowsPerPage={10}
-        page={1}
+        page={0}
         onChangePage={props.handleChangePage}
         onChangeRowsPerPage={props.handleChangeRowsPerPage}
       />

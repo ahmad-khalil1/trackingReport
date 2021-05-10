@@ -7,6 +7,7 @@ import {
   TableBody,
   TableCell,
   TableContainer,
+  TableHead,
   TableRow,
 } from "@material-ui/core";
 import { useState } from "react";
@@ -86,9 +87,12 @@ function stableSort(array, comparator) {
 const useStyles = makeStyles(theme => ({
   root: {
     width: "100%",
+    padding: "4rem  2rem",
+    marginTop: theme.mixins.toolbar.minHeight,
   },
   paper: {
     width: "100%",
+    // padding: "0rem 1rem",
     marginBottom: theme.spacing(2),
   },
   table: {
@@ -106,7 +110,10 @@ const useStyles = makeStyles(theme => ({
     width: 1,
   },
   nextIconButton: {
-    backgroundColor: "#E8ECEF",
+    backgroundColor: "#186299",
+  },
+  headRowStyleRoot: {
+    backgroundColor: theme.palette.background.default,
   },
 }));
 
@@ -129,15 +136,19 @@ const FuelHistoryDataTable = props => {
 
   return (
     <div className={classes.root}>
-      <Paper className={classes.paper}>
-        <FuelHistoryToolBar
-          rowsCount={rows.length}
-          handleChangePage={handleChangePage}
-          handleChangeRowsPerPage={handleChangeRowsPerPage}
-        />
-        <TableContainer>
-          <Table className={classes.table} aria-labelledby='tableTitle'>
-            <FuelHistryTableHead />
+      <FuelHistoryToolBar
+        rowsCount={rows.length}
+        handleChangePage={handleChangePage}
+        handleChangeRowsPerPage={handleChangeRowsPerPage}
+      />
+      <TableContainer>
+        <Paper elevation={0} variant='outlined' className={classes.paper}>
+          <Table
+            size='medium'
+            className={classes.table}
+            aria-labelledby='tableTitle'
+          >
+            <FuelHistryTableHead classes={classes} />
             <TableBody>
               {rows.map((row, index) => {
                 const labelId = `enhanced-table-checkbox-${index}`;
@@ -148,21 +159,21 @@ const FuelHistoryDataTable = props => {
                     // onClick={event => handleClick(event, row.name)}
                     // role='checkbox'
                     // aria-checked={isItemSelected}
-                    tabIndex={-1}
+                    // tabIndex={-1}
                     key={row.name}
                   >
                     <TableCell
                       component='th'
                       id={labelId}
                       scope='row'
-                      padding='none'
+                      // padding='none'
                     >
                       {row.name}
                     </TableCell>
-                    {/* <TableCell align='right'>{row.calories}</TableCell> */}
-                    {/* <TableCell align='right'>{row.fat}</TableCell> */}
-                    {/* <TableCell align='right'>{row.carbs}</TableCell> */}
-                    {/* <TableCell align='right'>{row.protein}</TableCell> */}
+                    <TableCell align='right'>{row.time}</TableCell>
+                    <TableCell align='right'>{row.totalKm}</TableCell>
+                    <TableCell align='right'>{row.volume}</TableCell>
+                    <TableCell align='right'>{row.cost}</TableCell>
                   </TableRow>
                 );
               })}
@@ -173,8 +184,8 @@ const FuelHistoryDataTable = props => {
               )}
             </TableBody>
           </Table>
-        </TableContainer>
-      </Paper>
+        </Paper>
+      </TableContainer>
     </div>
   );
 };

@@ -1,25 +1,36 @@
-import { TableCell, TableHead, TableRow } from "@material-ui/core";
+import { makeStyles, TableCell, TableHead, TableRow } from "@material-ui/core";
 
 const headCells = [
-  {
-    id: "vehicle",
-    disablePadding: true,
-    label: "Vehicle",
-  },
-  { id: "time", disablePadding: false, label: "Time" },
-  { id: "totalKm", disablePadding: false, label: "Total KM" },
-  { id: "volume", disablePadding: false, label: "Volume" },
-  { id: "cost", disablePadding: false, label: "Cost" },
-  { id: "actions", disablePadding: false, label: "Actions" },
+  // {
+  //   id: "vehicle",
+  //   numeric: false,
+  //   disablePadding: true,
+  //   label: "Vehicle",
+  // },
+  { id: "time", numeric: true, disablePadding: false, label: "Time" },
+  { id: "totalKm", numeric: true, disablePadding: false, label: "Total KM" },
+  { id: "volume", numeric: true, disablePadding: false, label: "Volume" },
+  { id: "cost", numeric: true, disablePadding: false, label: "Cost" },
+  { id: "actions", numeric: true, disablePadding: false, label: "Actions" },
 ];
+
+const useStyles = makeStyles(theme => ({
+  headRowStyleRoot: {
+    backgroundColor: theme.palette.background.default,
+  },
+  cellRoot: { color: "#98A9BC" },
+}));
 const FuelHistryTableHead = props => {
-  const { classes } = props;
+  const classes = useStyles();
   return (
     <TableHead>
-      <TableRow>
+      <TableRow classes={{ root: classes.headRowStyleRoot }}>
+        <TableCell classes={{ root: classes.cellRoot }}>Vehicle</TableCell>
         {headCells.map(headCell => (
           <TableCell
+            classes={{ root: classes.cellRoot }}
             key={headCell.id}
+            align={headCell.numeric ? "right" : "left"}
             padding={headCell.disablePadding ? "none" : "default"}
           >
             {headCell.label}

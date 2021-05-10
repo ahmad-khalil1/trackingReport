@@ -6,7 +6,7 @@ const MainTheme = createMuiTheme({
   palette: {
     primary: { main: "#FFFFFF" },
     background: {
-      default: "#E5E5E5",
+      default: "#F8FAFB",
       paper: "#FFFFFF",
     },
     text: {
@@ -20,6 +20,14 @@ const MainTheme = createMuiTheme({
   },
   breakpoints: {
     values: { xs: 0, sm: 600, md: 960, lg: 1280, xl: 1920, iphone5: 320 },
+  },
+  overrides: {
+    MuiTableCell: {
+      root: {
+        borderBottom: "1px solid #F2F4F6",
+        // borderColor: "#F2F4F6",
+      },
+    },
   },
 });
 

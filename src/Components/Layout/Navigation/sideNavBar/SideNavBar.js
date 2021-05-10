@@ -73,6 +73,8 @@ const SideNavBar = props => {
           }}
           // drawer type
           variant='permanent'
+          // variant='temporary'
+
           anchor='left'
         >
           {drawer}
