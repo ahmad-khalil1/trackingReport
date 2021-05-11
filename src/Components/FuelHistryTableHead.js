@@ -18,7 +18,7 @@ const useStyles = makeStyles(theme => ({
   headRowStyleRoot: {
     backgroundColor: theme.palette.background.default,
   },
-  cellRoot: { color: "#98A9BC" },
+  cellRoot: { color: theme.palette.text.hint },
 }));
 const FuelHistryTableHead = props => {
   const classes = useStyles();
