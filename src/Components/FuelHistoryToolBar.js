@@ -5,9 +5,9 @@ import {
   TablePagination,
   Toolbar,
 } from "@material-ui/core";
-import TablePaginationActions from "./UI/TablePaginationActions";
+import TablePaginationActions from "./UI/dataTableUI/TablePaginationActions";
 import { useState } from "react";
-import SortingSelect from "./UI/SortingSelect";
+import SortingSelect from "./UI/dataTableUI/SortingSelect";
 
 const useToolbarStyles = makeStyles(theme => ({
   root: {},

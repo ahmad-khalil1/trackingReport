@@ -9,7 +9,7 @@ import {
 } from "@material-ui/core";
 import { ExpandMore } from "@material-ui/icons";
 import { useState } from "react";
-import DropDownSelectIcon from "../../assets/icons/DropDownSelectIcon";
+import DropDownSelectIcon from "../../../assets/icons/DropDownSelectIcon";
 
 const useStyle = makeStyles(theme => ({
   selectpaperRoot: {

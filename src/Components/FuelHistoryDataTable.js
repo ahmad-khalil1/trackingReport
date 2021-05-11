@@ -15,6 +15,9 @@ import auris from "../assets/dataTable/auris.png";
 import avanza from "../assets/dataTable/avanza.png";
 import prius from "../assets/dataTable/prius.png";
 import xenia from "../assets/dataTable/xenia.png";
+import VehiclePresention from "./UI/dataTableUI/VehiclePresention";
+import CostPresentation from "./UI/dataTableUI/CostPresentation";
+import DataTableActionCell from "./UI/dataTableUI/DataTableActionCell";
 
 function createData(image, name, status, time, totalKm, volume, cost) {
   return { image, name, status, time, totalKm, volume, cost };
@@ -168,12 +171,21 @@ const FuelHistoryDataTable = props => {
                       scope='row'
                       // padding='none'
                     >
-                      {row.name}
+                      <VehiclePresention
+                        name={row.name}
+                        image={row.image}
+                        status={row.status}
+                      />
                     </TableCell>
                     <TableCell align='right'>{row.time}</TableCell>
                     <TableCell align='right'>{row.totalKm}</TableCell>
                     <TableCell align='right'>{row.volume}</TableCell>
-                    <TableCell align='right'>{row.cost}</TableCell>
+                    <TableCell align='right'>
+                      <CostPresentation cost={row.cost} />
+                    </TableCell>
+                    <TableCell align='right'>
+                      <DataTableActionCell />
+                    </TableCell>
                   </TableRow>
                 );
               })}
