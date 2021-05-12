@@ -191,7 +191,9 @@ const FuelHistoryDataTable = props => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [isSortedByDate, setIsSortedByDate] = useState(true);
-  const [rows, setRows] = useState(ROWS_BASE);
+  const [rows, setRows] = useState(
+    stableSort(ROWS_BASE, getComparator("desc", "date"))
+  );
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
