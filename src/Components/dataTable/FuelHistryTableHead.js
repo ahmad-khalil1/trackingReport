@@ -7,11 +7,11 @@ const headCells = [
   //   disablePadding: true,
   //   label: "Vehicle",
   // },
-  { id: "time", numeric: true, disablePadding: false, label: "Time" },
-  { id: "totalKm", numeric: true, disablePadding: false, label: "Total KM" },
-  { id: "volume", numeric: true, disablePadding: false, label: "Volume" },
-  { id: "cost", numeric: true, disablePadding: false, label: "Cost" },
-  { id: "actions", numeric: true, disablePadding: false, label: "Actions" },
+  { id: "time", isAction: false, disablePadding: false, label: "Time" },
+  { id: "totalKm", isAction: false, disablePadding: false, label: "Total KM" },
+  { id: "volume", isAction: false, disablePadding: false, label: "Volume" },
+  { id: "cost", isAction: false, disablePadding: false, label: "Cost" },
+  { id: "actions", isAction: true, disablePadding: false, label: "Actions" },
 ];
 
 const useStyles = makeStyles(theme => ({
@@ -30,7 +30,7 @@ const FuelHistryTableHead = props => {
           <TableCell
             classes={{ root: classes.cellRoot }}
             key={headCell.id}
-            align={headCell.numeric ? "right" : "left"}
+            align={headCell.isAction ? "center" : "left"}
             padding={headCell.disablePadding ? "none" : "default"}
           >
             {headCell.label}
