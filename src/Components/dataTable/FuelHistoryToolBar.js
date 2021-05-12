@@ -44,6 +44,8 @@ const FuelHistoryToolBar = props => {
   };
   const handleSortingChange = event => {
     setSortingState(event.target.value);
+    props.onSortingChangeHandler(event.target.value);
+    console.log(sortingState);
   };
   return (
     <Toolbar disableGutters className={classes.root}>

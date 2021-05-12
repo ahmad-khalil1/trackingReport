@@ -10,7 +10,7 @@ import {
   TableHead,
   TableRow,
 } from "@material-ui/core";
-import { useState } from "react";
+import { Fragment, useState } from "react";
 import auris from "../../assets/dataTable/auris.png";
 import avanza from "../../assets/dataTable/avanza.png";
 import prius from "../../assets/dataTable/prius.png";
@@ -21,41 +21,21 @@ import DataTableActionCell from "./dataTableCells/DataTableActionCell";
 import DataRow from "../UI/dataTableUI/DataRow";
 
 function createData(image, name, status, date, time, totalKm, volume, cost) {
-  return { image, name, status, date, time, totalKm, volume, cost };
+  return { image, name, status, date: date, time, totalKm, volume, cost };
 }
 
 export const vehicleAvailablity = {
-  active: "ACTIVE",
-  inShop: "INSHOPE",
-  outOfService: "OUTOFSERVICE",
+  active: "0",
+  inShop: "1",
+  outOfService: "2",
 };
 
 const ROWS_BASE = [
   createData(
-    prius,
-    "Toyota prius",
-    vehicleAvailablity.active,
-    "june 10,2019",
-    "10:30 AM",
-    "17.845 km",
-    "123.35 L",
-    "Rp 625.000"
-  ),
-  createData(
-    avanza,
-    "Toyota avanza",
-    vehicleAvailablity.inShop,
-    "june 10,2019",
-    "10:30 AM",
-    "17.845 km",
-    "123.35 L",
-    "Rp 625.000"
-  ),
-  createData(
     auris,
     "Toyota auris",
     vehicleAvailablity.active,
-    "june 9,2019",
+    new Date("2019-06-9"),
     "10:30 AM",
     "17.845 km",
     "123.35 L",
@@ -65,7 +45,7 @@ const ROWS_BASE = [
     xenia,
     "Daihatsu xenia",
     vehicleAvailablity.outOfService,
-    "june 9,2019",
+    new Date("2019-06-9"),
     "10:30 AM",
     "17.845 km",
     "123.35 L",
@@ -76,7 +56,7 @@ const ROWS_BASE = [
     auris,
     "Toyota auriss",
     vehicleAvailablity.active,
-    "june 9,2019",
+    new Date("2019-06-9"),
     "10:30 AM",
     "17.845 km",
     "123.35 L",
@@ -87,37 +67,34 @@ const ROWS_BASE = [
     avanza,
     "Toyota avanzas",
     vehicleAvailablity.inShop,
-    "june 8,2019",
+    new Date("2019-06-8"),
+    "10:30 AM",
+    "17.845 km",
+    "123.35 L",
+    "Rp 625.000"
+  ),
+
+  createData(
+    avanza,
+    "Toyota avanza",
+    vehicleAvailablity.inShop,
+    new Date("2019-06-10"),
+    "10:30 AM",
+    "17.845 km",
+    "123.35 L",
+    "Rp 625.000"
+  ),
+  createData(
+    prius,
+    "Toyota prius",
+    vehicleAvailablity.active,
+    new Date("2019-06-10"),
     "10:30 AM",
     "17.845 km",
     "123.35 L",
     "Rp 625.000"
   ),
 ];
-
-const getRowDateSorted = rowsArray => {
-  const array = [...rowsArray];
-  const groupBy = (array, key) => {
-    // Return the reduced array
-    return array.reduce((result, currentItem) => {
-      // If an array already present for key, push it to the array. Otherwise create an array and push the object.
-      (result[currentItem[key]] = result[currentItem[key]] || []).push(
-        currentItem
-      );
-      // return the current iteration `result` value, this will be the next iteration's `result` value and accumulate
-      return result;
-    }, {}); // Empty object is the initial value for result object
-  };
-  console.log(array);
-  const groupedArray = groupBy(array, "date");
-
-  return Object.keys(groupedArray).map(date => {
-    return {
-      date,
-      rows: groupedArray[date],
-    };
-  });
-};
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -144,6 +121,37 @@ function stableSort(array, comparator) {
   });
   return stabilizedThis.map(el => el[0]);
 }
+
+const getRowsDateGrouped = rowsArray => {
+  const array = [...rowsArray];
+  // transform vehicle date to match the human readble
+  console.log(array);
+  const transformedArray = array.map(item => {
+    const temp = item;
+    if (typeof temp.date !== "string") {
+      temp.date = temp.date.toDateString();
+    }
+    return temp;
+  });
+  // group the vehicle withing the same date
+  const groupBy = (transformedArray, key) => {
+    return array.reduce((result, currentItem) => {
+      (result[currentItem[key]] = result[currentItem[key]] || []).push(
+        currentItem
+      );
+      return result;
+    }, {});
+  };
+  const groupedArray = groupBy(array, "date");
+
+  // return an array of object contain the date and its rows
+  return Object.keys(groupedArray).map(date => {
+    return {
+      date,
+      rows: groupedArray[date],
+    };
+  });
+};
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -182,6 +190,7 @@ const FuelHistoryDataTable = props => {
   const classes = useStyles();
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [isSortedByDate, setIsSortedByDate] = useState(true);
   const [rows, setRows] = useState(ROWS_BASE);
 
   const handleChangePage = (event, newPage) => {
@@ -193,6 +202,16 @@ const FuelHistoryDataTable = props => {
     setPage(0);
   };
 
+  const handleChangeSorting = sortBy => {
+    console.log(sortBy);
+    if (sortBy === "date") {
+      setRows(stableSort(ROWS_BASE, getComparator("desc", "date")));
+      setIsSortedByDate(true);
+    } else if (sortBy === "status") {
+      setIsSortedByDate(false);
+      setRows(stableSort(ROWS_BASE, getComparator("asc", "status")));
+    }
+  };
   const emptyRows =
     rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
 
@@ -202,6 +221,7 @@ const FuelHistoryDataTable = props => {
         rowsCount={rows.length}
         handleChangePage={handleChangePage}
         handleChangeRowsPerPage={handleChangeRowsPerPage}
+        onSortingChangeHandler={handleChangeSorting}
       />
       <TableContainer>
         <Paper elevation={0} variant='outlined' className={classes.paper}>
@@ -212,50 +232,81 @@ const FuelHistoryDataTable = props => {
           >
             <FuelHistryTableHead classes={classes} />
             <TableBody>
-              {getRowDateSorted(rows).map((dayRow, index) => {
-                const labelId = `enhanced-table-checkbox-${index}`;
+              {isSortedByDate &&
+                getRowsDateGrouped(rows).map((dayRow, index) => {
+                  const labelId = `enhanced-table-checkbox-${index}`;
 
-                return (
-                  <>
-                    <DataRow date={dayRow.date} />
-                    {dayRow.rows.map((row, index) => {
-                      const labelId = `table-row${index}`;
-                      return (
-                        <TableRow
-                          hover
-                          // onClick={event => handleClick(event, row.name)}
-                          // role='checkbox'
-                          // aria-checked={isItemSelected}
-                          // tabIndex={-1}
-                          key={row.name}
-                        >
-                          <TableCell
-                            component='th'
-                            id={labelId}
-                            scope='row'
-                            // padding='none'
-                          >
-                            <VehiclePresention
-                              name={row.name}
-                              image={row.image}
-                              status={row.status}
-                            />
-                          </TableCell>
-                          <TableCell align='left'>{row.time}</TableCell>
-                          <TableCell align='left'>{row.totalKm}</TableCell>
-                          <TableCell align='left'>{row.volume}</TableCell>
-                          <TableCell align='left'>
-                            <CostPresentation cost={row.cost} />
-                          </TableCell>
-                          <TableCell align='center'>
-                            <DataTableActionCell />
-                          </TableCell>
-                        </TableRow>
-                      );
-                    })}
-                  </>
-                );
-              })}
+                  return (
+                    <Fragment key={labelId}>
+                      <DataRow date={dayRow.date} />
+                      {dayRow.rows.map((row, index) => {
+                        const labelId = `table-row${index}`;
+                        return (
+                          <TableRow hover key={row.name}>
+                            <TableCell
+                              component='th'
+                              key={labelId}
+                              scope='row'
+                              // padding='none'
+                            >
+                              <VehiclePresention
+                                name={row.name}
+                                image={row.image}
+                                status={row.status}
+                              />
+                            </TableCell>
+                            <TableCell align='left'>{row.time}</TableCell>
+                            <TableCell align='left'>{row.totalKm}</TableCell>
+                            <TableCell align='left'>{row.volume}</TableCell>
+                            <TableCell align='left'>
+                              <CostPresentation cost={row.cost} />
+                            </TableCell>
+                            <TableCell align='center'>
+                              <DataTableActionCell />
+                            </TableCell>
+                          </TableRow>
+                        );
+                      })}
+                    </Fragment>
+                  );
+                })}
+              {!isSortedByDate &&
+                rows.map((row, index) => {
+                  const labelId = `enhanced-table-checkbox-${index}`;
+
+                  return (
+                    <TableRow
+                      hover
+                      // onClick={event => handleClick(event, row.name)}
+                      // role='checkbox'
+                      // aria-checked={isItemSelected}
+                      // tabIndex={-1}
+                      key={row.name}
+                    >
+                      <TableCell
+                        component='th'
+                        id={labelId}
+                        scope='row'
+                        // padding='none'
+                      >
+                        <VehiclePresention
+                          name={row.name}
+                          image={row.image}
+                          status={row.status}
+                        />
+                      </TableCell>
+                      <TableCell align='left'>{row.time}</TableCell>
+                      <TableCell align='left'>{row.totalKm}</TableCell>
+                      <TableCell align='left'>{row.volume}</TableCell>
+                      <TableCell align='left'>
+                        <CostPresentation cost={row.cost} />
+                      </TableCell>
+                      <TableCell align='center'>
+                        <DataTableActionCell />
+                      </TableCell>
+                    </TableRow>
+                  );
+                })}
               {emptyRows > 0 && (
                 <TableRow>
                   <TableCell colSpan={6} />
@@ -270,40 +321,3 @@ const FuelHistoryDataTable = props => {
 };
 
 export default FuelHistoryDataTable;
-
-// {rows.map((row, index) => {
-//   const labelId = `enhanced-table-checkbox-${index}`;
-
-//   return (
-//     <TableRow
-//       hover
-//       // onClick={event => handleClick(event, row.name)}
-//       // role='checkbox'
-//       // aria-checked={isItemSelected}
-//       // tabIndex={-1}
-//       key={row.name}
-//     >
-//       <TableCell
-//         component='th'
-//         id={labelId}
-//         scope='row'
-//         // padding='none'
-//       >
-//         <VehiclePresention
-//           name={row.name}
-//           image={row.image}
-//           status={row.status}
-//         />
-//       </TableCell>
-//       <TableCell align='left'>{row.time}</TableCell>
-//       <TableCell align='left'>{row.totalKm}</TableCell>
-//       <TableCell align='left'>{row.volume}</TableCell>
-//       <TableCell align='left'>
-//         <CostPresentation cost={row.cost} />
-//       </TableCell>
-//       <TableCell align='center'>
-//         <DataTableActionCell />
-//       </TableCell>
-//     </TableRow>
-//   );
-// })}

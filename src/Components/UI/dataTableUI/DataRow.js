@@ -10,13 +10,13 @@ const useStyles = makeStyles(theme => ({
 const DataRow = props => {
   const classes = useStyles();
   const { date } = props;
+
   return (
     <>
-      <TableRow component='thead' classes={{ root: classes.headRowStyleRoot }}>
+      <TableRow classes={{ root: classes.headRowStyleRoot }}>
         <TableCell>
-          {" "}
           <Typography color='textSecondary' variant='subtitle1'>
-            Mon ,{date}
+            {date}
           </Typography>
         </TableCell>
         <TableCell></TableCell>
