@@ -30,7 +30,7 @@ export const vehicleAvailablity = {
   outOfService: "OUTOFSERVICE",
 };
 
-const rows = [
+const ROWS_BASE = [
   createData(
     prius,
     "Toyota prius",
@@ -82,7 +82,7 @@ const rows = [
     "123.35 L",
     "Rp 625.000"
   ),
-  ,
+
   createData(
     avanza,
     "Toyota avanzas",
@@ -97,14 +97,27 @@ const rows = [
 
 const getRowDateSorted = rowsArray => {
   const array = [...rowsArray];
-  return [
-    { day: "Jun 10, 2019", rows: [...rowsArray.slice(0, 3)] },
-    { day: "Jun 9, 2019", rows: [...rowsArray.slice(3, 5)] },
-    { day: "Jun 8, 2019", rows: [...rowsArray.slice(-1)] },
-  ];
-};
+  const groupBy = (array, key) => {
+    // Return the reduced array
+    return array.reduce((result, currentItem) => {
+      // If an array already present for key, push it to the array. Otherwise create an array and push the object.
+      (result[currentItem[key]] = result[currentItem[key]] || []).push(
+        currentItem
+      );
+      // return the current iteration `result` value, this will be the next iteration's `result` value and accumulate
+      return result;
+    }, {}); // Empty object is the initial value for result object
+  };
+  console.log(array);
+  const groupedArray = groupBy(array, "date");
 
-getRowDateSorted(rows);
+  return Object.keys(groupedArray).map(date => {
+    return {
+      date,
+      rows: groupedArray[date],
+    };
+  });
+};
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -169,6 +182,7 @@ const FuelHistoryDataTable = props => {
   const classes = useStyles();
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [rows, setRows] = useState(ROWS_BASE);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -203,7 +217,7 @@ const FuelHistoryDataTable = props => {
 
                 return (
                   <>
-                    <DataRow date={dayRow.day} />
+                    <DataRow date={dayRow.date} />
                     {dayRow.rows.map((row, index) => {
                       const labelId = `table-row${index}`;
                       return (

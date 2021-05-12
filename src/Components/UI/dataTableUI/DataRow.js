@@ -19,11 +19,11 @@ const DataRow = props => {
             Mon ,{date}
           </Typography>
         </TableCell>
-        <TableCell> </TableCell>
-        <TableCell> </TableCell>
-        <TableCell> </TableCell>
-        <TableCell> </TableCell>
-        <TableCell> </TableCell>
+        <TableCell></TableCell>
+        <TableCell></TableCell>
+        <TableCell></TableCell>
+        <TableCell></TableCell>
+        <TableCell></TableCell>
       </TableRow>
     </>
   );
