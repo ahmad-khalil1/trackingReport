@@ -1,5 +1,5 @@
 import { Avatar, Grid, makeStyles, Typography } from "@material-ui/core";
-import { vehicleAvailablity } from "../FuelHistoryDataTable";
+import { vehicleAvailablity } from "../../../data/rows";
 const useStyle = makeStyles(theme => ({
   activeColor: { color: "#21A11E" },
   inShopColor: { color: "#C1931B" },

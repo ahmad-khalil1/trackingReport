@@ -7,12 +7,19 @@ const useStyle = makeStyles(theme => ({
 }));
 const DataTableActionCell = props => {
   const classes = useStyle();
+
+  const handleDelete = () => {
+    props.onDeleteHandler(props.id);
+  };
   return (
     <>
       <IconButton classes={{ root: classes.iconOrangeColor }}>
         <EditIcon />
       </IconButton>
-      <IconButton classes={{ root: classes.iconRedColor }}>
+      <IconButton
+        onClick={handleDelete}
+        classes={{ root: classes.iconRedColor }}
+      >
         <DeleteIcon />
       </IconButton>
     </>
