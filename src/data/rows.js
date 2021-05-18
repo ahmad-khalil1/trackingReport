@@ -94,3 +94,72 @@ export const ROWS_BASE = [
     "Toyotaprius233"
   ),
 ];
+
+// createData(
+//   auris,
+//   "Toyota loolo",
+//   vehicleAvailablity.active,
+//   new Date("2019-06-5"),
+//   "10:343 AM",
+//   "123.844 km",
+//   "13243.3 L",
+//   "Rp 625.000",
+//   "Toyoqwertaauriss2"
+// ),
+
+// createData(
+//   avanza,
+//   "Toyota awqervanzas",
+//   vehicleAvailablity.inShop,
+//   new Date("2019-06-3"),
+//   "10:30 AM",
+//   "17.845 km",
+//   "123.35 L",
+//   "Rp 625.000",
+//   "Toyotqweraavanzas23"
+// ),
+
+// createData(
+//   avanza,
+//   "Toyota avanza",
+//   vehicleAvailablity.inShop,
+//   new Date("2019-06-14"),
+//   "10:30 AM",
+//   "17.845 km",
+//   "123.35 L",
+//   "Rp 625.000",
+//   "Toyotaavsgbgrbanza01"
+// ),
+// createData(
+//   prius,
+//   "Toyota prius",
+//   vehicleAvailablity.active,
+//   new Date("2019-06-12"),
+//   "10:30 AM",
+//   "17.845 km",
+//   "123.35 L",
+//   "Rp 625.000",
+//   "Toyotaprius233dfnfgn"
+// ),
+// createData(
+//   avanza,
+//   "Toyota avancvvvvza",
+//   vehicleAvailablity.inShop,
+//   new Date("2019-06-14"),
+//   "10:30 AM",
+//   "17.845 km",
+//   "123.35 L",
+//   "Rp 625.000",
+//   "nza01"
+// ),
+// createData(
+//   prius,
+//   "Toyota priuasdfas",
+//   vehicleAvailablity.active,
+//   new Date("2019-06-2"),
+//   "10:30 AM",
+//   "17.845 km",
+//   "123.35 L",
+//   "Rp 625.000",
+//   "2qr"
+// ),

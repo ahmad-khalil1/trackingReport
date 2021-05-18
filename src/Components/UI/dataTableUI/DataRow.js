@@ -19,6 +19,7 @@ const DataRow = props => {
             {date}
           </Typography>
         </TableCell>
+        {/* plain filler cells */}
         <TableCell></TableCell>
         <TableCell></TableCell>
         <TableCell></TableCell>

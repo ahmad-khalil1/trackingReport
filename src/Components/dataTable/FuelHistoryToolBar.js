@@ -33,11 +33,11 @@ const FuelHistoryToolBar = props => {
   const menuClasses = { paper: classes.selectRoot };
   const [timeZoneState, setTimeZoneState] = useState("egypt");
   const [sortingState, setSortingState] = useState("date");
-  const [page, setPage] = useState(0);
+  // const [page, setPage] = useState(0);
 
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
+  // const handleChangePage = (event, newPage) => {
+  //   setPage(newPage);
+  // };
 
   const handleTimeZoneChange = event => {
     setTimeZoneState(event.target.value);
@@ -57,8 +57,8 @@ const FuelHistoryToolBar = props => {
           component='div'
           count={props.rowsCount}
           rowsPerPage={10}
-          page={page}
-          onChangePage={handleChangePage}
+          page={props.page}
+          onChangePage={props.handleChangePage}
         />
 
         <SortingSelect
