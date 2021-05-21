@@ -14,6 +14,9 @@ import MuiTextField from "@material-ui/core/TextField";
 import { ExpandMore } from "@material-ui/icons";
 import { useFormik } from "formik";
 import * as yup from "yup";
+import { useDispatch, useSelector } from "react-redux";
+import { rowEditingActions } from "../../store/rowEditingSlice";
+import { rowActions } from "../../store/rowSlice";
 
 const TextField = withStyles(theme => {
   const outlineColor = theme.palette.divider;
@@ -53,6 +56,7 @@ const fuelType = [80, 92, 95];
 
 const useStyles = makeStyles(theme => {
   return {
+    formRoot: { marginBottom: "1rem" },
     selectRoot: { color: theme.palette.text.secondary },
     iconStyle: { color: theme.palette.text.primary },
     inputAndemortRoot: { color: "rgba(11,11,13,0.5)" },
@@ -70,25 +74,58 @@ const validationSchema = yup.object({
   fuelType: yup.number().oneOf(fuelType, "this isn't fuel type").notRequired(),
 });
 
+const getDateForm = date => {
+  const month =
+    date.getMonth() > 9 ? date.getMonth() + 1 : `0${date.getMonth() + 1}`;
+
+  const day = date.getDate() > 9 ? date.getDate() : `0${date.getDate()}`;
+
+  return `${date.getFullYear()}-${month}-${day}`;
+};
+
 const EditFuelForm = props => {
+  const currentRowID = useSelector(state => state.rowEdit.currentEditingRowID);
+  const currentEditeRow = useSelector(state =>
+    state.rows.rows.find(row => row.id === currentRowID)
+  );
+
+  const dispatch = useDispatch();
+  const classes = useStyles();
+
+  const handleSubmision = values => {
+    // alert(JSON.stringify(values, null, 2));
+    dispatch(
+      rowActions.editRow({
+        editedRowID: currentRowID,
+        editedRow: {
+          name: values.vehicles,
+          date: new Date(values.startDate),
+          totalKm: `${values.odometer} km`,
+          volume: `${values.volume} L`,
+        },
+      })
+    );
+    dispatch(rowEditingActions.resetEditRow());
+  };
+
   const formik = useFormik({
     initialValues: {
-      vehicles: "Toyota prius",
-      startDate: "2019-07-12",
-      odometer: 75.591,
-      volume: 45,
+      vehicles: currentEditeRow.name,
+      startDate: getDateForm(currentEditeRow.date),
+      odometer: Number(currentEditeRow.totalKm.split(" ")[0]),
+      volume: Number(currentEditeRow.volume.split(" ")[0]),
       fuelType: "",
     },
     validationSchema: validationSchema,
-    onSubmit: values => {
-      alert(JSON.stringify(values, null, 2));
-    },
+    onSubmit: handleSubmision,
   });
 
-  const handleChange = () => {};
-  const classes = useStyles();
   return (
-    <form>
+    <form
+      id='EditFuelForm'
+      onSubmit={formik.handleSubmit}
+      classes={classes.formRoot}
+    >
       <Grid style={{ marginBottom: "10px" }}>
         <Typography>Vehicle</Typography>
         <TextField
@@ -205,7 +242,6 @@ const EditFuelForm = props => {
             SelectProps={{
               IconComponent: ExpandMore,
               classes: { root: classes.selectRoot, icon: classes.iconStyle },
-              // placeholder: "Select one",
               displayEmpty: true,
             }}
           >

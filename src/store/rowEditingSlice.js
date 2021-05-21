@@ -12,7 +12,7 @@ const rowEditing = createSlice({
     },
     resetEditRow(state, action) {
       state.isEditing = false;
-      state.currentEditingRowID = "";
+      // state.currentEditingRowID = "";
     },
   },
 });

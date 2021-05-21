@@ -41,7 +41,15 @@ const rowSlice = createSlice({
       state.rows = state.rows.filter(item => item.id !== id);
     },
     addRow(state, action) {},
-    editRow(state, action) {},
+    editRow(state, action) {
+      const editedRowIndex = state.rows.findIndex(
+        row => row.id === action.payload.editedRowID
+      );
+      state.rows[editedRowIndex] = {
+        ...state.rows[editedRowIndex],
+        ...action.payload.editedRow,
+      };
+    },
     sortRows(state, action) {
       if (action.payload.sortBy === "date") {
         state.rows = stableSort(ROWS_BASE, getComparator("desc", "date"));

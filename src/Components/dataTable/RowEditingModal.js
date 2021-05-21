@@ -69,6 +69,14 @@ const useStyle = makeStyles(theme => {
     inputFocusd: {
       border: "1px solid #",
     },
+    saveButtonRoot: {
+      backgroundColor: theme.palette.info.main,
+      color: theme.palette.primary.main,
+      "&:hover": {
+        backgroundColor: "rgba(77,124,254,0.81)",
+        // border: "1px solid #778CA2",
+      },
+    },
   };
 });
 
@@ -102,7 +110,16 @@ const RowEditingModal = props => {
         <EditFuelForm />
       </DialogContent>
       <DialogActions>
-        <Button autoFocus onClick={handleClose}>
+        <Button autoFocus variant='outlined' onClick={handleClose}>
+          Cancel
+        </Button>
+        <Button
+          autoFocus
+          classes={{ root: classes.saveButtonRoot }}
+          type='submit'
+          form='EditFuelForm'
+          // onClick={handleClose}
+        >
           Save
         </Button>
       </DialogActions>
