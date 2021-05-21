@@ -69,10 +69,7 @@ const FuelHistryTableBody = props => {
                         <CostPresentation cost={row.cost} />
                       </TableCell>
                       <TableCell align='center'>
-                        <DataTableActionCell
-                          id={row.id}
-                          onDeleteHandler={props.handleDelete}
-                        />
+                        <DataTableActionCell id={row.id} />
                       </TableCell>
                     </TableRow>
                   );
@@ -104,10 +101,7 @@ const FuelHistryTableBody = props => {
                   <CostPresentation cost={row.cost} />
                 </TableCell>
                 <TableCell align='center'>
-                  <DataTableActionCell
-                    id={row.id}
-                    onDeleteHandler={props.handleDelete}
-                  />
+                  <DataTableActionCell id={row.id} />
                 </TableCell>
               </TableRow>
             );
