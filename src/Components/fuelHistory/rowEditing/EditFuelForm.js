@@ -1,47 +1,17 @@
 import {
-  FormControl,
   Grid,
-  Input,
   InputAdornment,
   makeStyles,
   MenuItem,
-  OutlinedInput,
-  //   TextField,
   Typography,
-  withStyles,
 } from "@material-ui/core";
-import MuiTextField from "@material-ui/core/TextField";
 import { ExpandMore } from "@material-ui/icons";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
-import { rowEditingActions } from "../../store/rowEditingSlice";
-import { rowActions } from "../../store/rowSlice";
-
-const TextField = withStyles(theme => {
-  const outlineColor = theme.palette.divider;
-  const focusedOutlineColor = "#7FAED1";
-  const hoverColor = "#84869C";
-
-  return {
-    root: {
-      "& .MuiOutlinedInput-root": {
-        "& input": {
-          color: theme.palette.text.secondary,
-        },
-        "& fieldset": {
-          borderColor: outlineColor,
-        },
-        "&:hover fieldset": {
-          borderColor: hoverColor,
-        },
-        "&.Mui-focused fieldset": {
-          borderColor: focusedOutlineColor,
-        },
-      },
-    },
-  };
-})(MuiTextField);
+import { rowEditingActions } from "../../../store/rowEditingSlice";
+import { rowActions } from "../../../store/rowSlice";
+import TextField from "../../UI/dataTableUI/FormTextField";
 
 const vehiclesArray = [
   "Toyota auris",
@@ -83,7 +53,7 @@ const getDateForm = date => {
   return `${date.getFullYear()}-${month}-${day}`;
 };
 
-const EditFuelForm = props => {
+const EditFuelForm = _ => {
   const currentRowID = useSelector(state => state.rowEdit.currentEditingRowID);
   const currentEditeRow = useSelector(state =>
     state.rows.rows.find(row => row.id === currentRowID)

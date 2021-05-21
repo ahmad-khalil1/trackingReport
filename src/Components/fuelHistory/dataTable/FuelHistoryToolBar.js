@@ -1,43 +1,11 @@
-import {
-  Grid,
-  makeStyles,
-  MenuItem,
-  TablePagination,
-  Toolbar,
-} from "@material-ui/core";
-import TablePaginationActions from "../UI/dataTableUI/TablePaginationActions";
+import { Grid, MenuItem, TablePagination, Toolbar } from "@material-ui/core";
+import TablePaginationActions from "../../UI/dataTableUI/TablePaginationActions";
 import { useState } from "react";
-import SortingSelect from "../UI/dataTableUI/SortingSelect";
-
-const useToolbarStyles = makeStyles(theme => ({
-  root: {},
-  title: {
-    // flex: "1 1 100%"
-  },
-  selectFilled: {
-    backgroundColor: theme.palette.background.paper,
-  },
-  selectpaperRoot: {
-    padding: "0.375rem 1.875rem",
-    // cellRoot: { color: theme.palette.text.hint },
-    "& p": { color: theme.palette.text.hint },
-    color: theme.palette.text.secondary,
-  },
-  selectRoot: { color: theme.palette.text.secondary },
-
-  formformControl: { color: theme.palette.text.secondary },
-}));
+import SortingSelect from "../../UI/dataTableUI/SortingSelect";
 
 const FuelHistoryToolBar = props => {
-  const classes = useToolbarStyles();
-  const menuClasses = { paper: classes.selectRoot };
   const [timeZoneState, setTimeZoneState] = useState("egypt");
   const [sortingState, setSortingState] = useState("date");
-  // const [page, setPage] = useState(0);
-
-  // const handleChangePage = (event, newPage) => {
-  //   setPage(newPage);
-  // };
 
   const handleTimeZoneChange = event => {
     setTimeZoneState(event.target.value);
@@ -48,7 +16,7 @@ const FuelHistoryToolBar = props => {
     console.log(sortingState);
   };
   return (
-    <Toolbar disableGutters className={classes.root}>
+    <Toolbar disableGutters>
       <Grid container alignItems='center' justify='flex-end'>
         <TablePagination
           ActionsComponent={TablePaginationActions}

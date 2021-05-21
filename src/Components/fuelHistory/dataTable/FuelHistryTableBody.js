@@ -1,21 +1,12 @@
 import { TableBody, TableCell, TableRow } from "@material-ui/core";
 import { Fragment } from "react";
-import DataRow from "../UI/dataTableUI/DataRow";
-import CostPresentation from "./dataTableCells/CostPresentation";
-import DataTableActionCell from "./dataTableCells/DataTableActionCell";
-import VehiclePresention from "./dataTableCells/VehiclePresention";
+import DataRow from "../../UI/dataTableUI/DataRow";
+import CostPresentation from "../dataTableCells/CostPresentation";
+import DataTableActionCell from "../dataTableCells/DataTableActionCell";
+import VehiclePresention from "../dataTableCells/VehiclePresention";
 
 const getRowsDateGrouped = rowsArray => {
   const array = [...rowsArray];
-  // transform vehicle date to match the human readble
-  //could issue a bug (after first sorting the main array date is transofmed to string and canno't re sorting again )
-  // const transformedArray = array.map(item => {
-  //   const temp = item;
-  //   if (typeof temp.date !== "string") {
-  //     // temp.date = temp.date.toDateString();
-  //   }
-  //   return temp;
-  // });
   // group the vehicle withing the same date
   const groupBy = (array, key) => {
     return array.reduce((result, currentItem) => {
@@ -37,7 +28,7 @@ const getRowsDateGrouped = rowsArray => {
 
 const FuelHistryTableBody = props => {
   return (
-    <>
+    <Fragment>
       <TableBody>
         {props.isSortedByDate &&
           getRowsDateGrouped(props.rows).map((dayRow, index) => {
@@ -50,12 +41,7 @@ const FuelHistryTableBody = props => {
                   const labelId = `table-row${index}`;
                   return (
                     <TableRow hover key={row.name}>
-                      <TableCell
-                        component='th'
-                        key={labelId}
-                        scope='row'
-                        // padding='none'
-                      >
+                      <TableCell component='th' key={labelId} scope='row'>
                         <VehiclePresention
                           name={row.name}
                           image={row.image}
@@ -82,12 +68,7 @@ const FuelHistryTableBody = props => {
             const labelId = `enhanced-table-checkbox-${index}`;
             return (
               <TableRow hover key={row.name}>
-                <TableCell
-                  component='th'
-                  id={labelId}
-                  scope='row'
-                  // padding='none'
-                >
+                <TableCell component='th' id={labelId} scope='row'>
                   <VehiclePresention
                     name={row.name}
                     image={row.image}
@@ -112,7 +93,7 @@ const FuelHistryTableBody = props => {
           </TableRow>
         )}
       </TableBody>
-    </>
+    </Fragment>
   );
 };
 export default FuelHistryTableBody;

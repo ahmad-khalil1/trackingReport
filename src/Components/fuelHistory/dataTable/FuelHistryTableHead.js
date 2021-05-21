@@ -1,12 +1,6 @@
 import { makeStyles, TableCell, TableHead, TableRow } from "@material-ui/core";
 
 const headCells = [
-  // {
-  //   id: "vehicle",
-  //   numeric: false,
-  //   disablePadding: true,
-  //   label: "Vehicle",
-  // },
   { id: "time", isAction: false, disablePadding: false, label: "Time" },
   { id: "totalKm", isAction: false, disablePadding: false, label: "Total KM" },
   { id: "volume", isAction: false, disablePadding: false, label: "Volume" },
@@ -20,7 +14,7 @@ const useStyles = makeStyles(theme => ({
   },
   cellRoot: { color: theme.palette.text.hint },
 }));
-const FuelHistryTableHead = props => {
+const FuelHistryTableHead = _ => {
   const classes = useStyles();
   return (
     <TableHead>

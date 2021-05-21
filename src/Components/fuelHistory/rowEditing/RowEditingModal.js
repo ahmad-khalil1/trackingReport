@@ -1,11 +1,8 @@
 import {
-  Box,
   Button,
   Dialog,
-  Grid,
   IconButton,
   makeStyles,
-  TextField,
   Typography,
   withStyles,
 } from "@material-ui/core";
@@ -14,7 +11,7 @@ import MuiDialogContent from "@material-ui/core/DialogContent";
 import MuiDialogActions from "@material-ui/core/DialogActions";
 import CloseIcon from "@material-ui/icons/Close";
 import { useDispatch, useSelector } from "react-redux";
-import { rowEditingActions } from "../../store/rowEditingSlice";
+import { rowEditingActions } from "../../../store/rowEditingSlice";
 import EditFuelForm from "./EditFuelForm";
 
 const styles = theme => ({
@@ -62,31 +59,19 @@ const DialogActions = withStyles(theme => ({
 
 const useStyle = makeStyles(theme => {
   return {
-    modalRoot: {
-      // minWidth: "600px",
-      // backgroundColor: "black",
-    },
-    inputFocusd: {
-      border: "1px solid #",
-    },
     saveButtonRoot: {
       backgroundColor: theme.palette.info.main,
       color: theme.palette.primary.main,
       "&:hover": {
         backgroundColor: "rgba(77,124,254,0.81)",
-        // border: "1px solid #778CA2",
       },
     },
   };
 });
 
 const RowEditingModal = props => {
-  // const { open, onClose: handleClose } = props;
   const isEditing = useSelector(state => state.rowEdit.isEditing);
-  const currentRowID = useSelector(state => state.rowEdit.currentEditingRowID);
-  const currentEditeRow = useSelector(state =>
-    state.rows.rows.find(row => row.id === currentRowID)
-  );
+
   const dispatch = useDispatch();
 
   const classes = useStyle();
@@ -98,7 +83,6 @@ const RowEditingModal = props => {
   return (
     <Dialog
       fullWidth
-      classes={{ paper: classes.modalRoot }}
       open={isEditing}
       aria-labelledby='alert-dialog-title'
       aria-describedby='alert-dialog-description'
@@ -118,7 +102,6 @@ const RowEditingModal = props => {
           classes={{ root: classes.saveButtonRoot }}
           type='submit'
           form='EditFuelForm'
-          // onClick={handleClose}
         >
           Save
         </Button>

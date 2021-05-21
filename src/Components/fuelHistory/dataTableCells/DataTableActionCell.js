@@ -4,10 +4,12 @@ import DeleteIcon from "../../../assets/icons/DeleteIcon";
 import EditIcon from "../../../assets/icons/EditIcon";
 import { rowEditingActions } from "../../../store/rowEditingSlice";
 import { rowActions } from "../../../store/rowSlice";
+
 const useStyle = makeStyles(theme => ({
   iconRedColor: { color: "#FE4D5C" },
   iconOrangeColor: { color: "#FFAB2B" },
 }));
+
 const DataTableActionCell = props => {
   const classes = useStyle();
   const dispatch = useDispatch();
@@ -18,6 +20,7 @@ const DataTableActionCell = props => {
   const handleEdit = () => {
     dispatch(rowEditingActions.startEditRow(props.id));
   };
+
   return (
     <>
       <IconButton

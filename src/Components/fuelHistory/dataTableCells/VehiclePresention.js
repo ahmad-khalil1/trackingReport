@@ -1,5 +1,6 @@
 import { Avatar, Grid, makeStyles, Typography } from "@material-ui/core";
 import { vehicleAvailablity } from "../../../data/rows";
+
 const useStyle = makeStyles(theme => ({
   activeColor: { color: "#21A11E" },
   inShopColor: { color: "#C1931B" },
@@ -10,6 +11,7 @@ const VehiclePresention = props => {
   const { image, name, status } = props;
   const classes = useStyle();
   let statusTypography;
+
   switch (status) {
     case vehicleAvailablity.active:
       statusTypography = (
@@ -32,6 +34,7 @@ const VehiclePresention = props => {
       statusTypography = <Typography>Not Defined</Typography>;
       break;
   }
+
   return (
     <>
       <Grid container spacing={2} justify='flex-start'>
