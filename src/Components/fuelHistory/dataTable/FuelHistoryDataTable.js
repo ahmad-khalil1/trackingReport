@@ -3,8 +3,11 @@ import FuelHistoryToolBar from "./FuelHistoryToolBar";
 import { makeStyles, TableContainer, Table, Paper } from "@material-ui/core";
 import { useState } from "react";
 import FuelHistryTableBody from "./FuelHistryTableBody";
-import { useSelector } from "react-redux";
-import { useDispatch } from "react-redux";
+import { connect } from "react-redux";
+// import { useSelector } from "react-redux";
+// import { useDispatch } from "react-redux";
+import { getRowsState } from "../../../store/selectors";
+
 import { rowActions } from "../../../store/rowSlice";
 import RowEditingModal from "../rowEditing/RowEditingModal";
 
@@ -25,20 +28,24 @@ const useStyles = makeStyles(theme => ({
 }));
 
 // Datetable
-const FuelHistoryDataTable = _ => {
+const FuelHistoryDataTable = props => {
   const classes = useStyles();
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [isSortedByDate, setIsSortedByDate] = useState(true);
-  const rows = useSelector(state => state.rows.rows);
-  const dispatch = useDispatch();
+  const { rows, sortRows } = props;
+
+  ///
+  // const rows = useSelector(state => state.rows.rows);
+  // const dispatch = useDispatch();
+  ////
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
 
   const handleChangeSorting = sortBy => {
-    dispatch(rowActions.sortRows({ sortBy: sortBy }));
+    sortRows({ sortBy: sortBy });
     setIsSortedByDate(state => {
       const prevstate = state;
       return !prevstate;
@@ -77,4 +84,9 @@ const FuelHistoryDataTable = _ => {
   );
 };
 
-export default FuelHistoryDataTable;
+const mapStateToProps = state => {
+  return { rows: getRowsState(state) };
+};
+export default connect(mapStateToProps, { sortRows: rowActions.sortRows })(
+  FuelHistoryDataTable
+);

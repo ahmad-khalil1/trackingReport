@@ -1,5 +1,6 @@
 import { IconButton, makeStyles } from "@material-ui/core";
-import { useDispatch } from "react-redux";
+// import { useDispatch } from "react-redux";
+import { connect } from "react-redux";
 import DeleteIcon from "../../../assets/icons/DeleteIcon";
 import EditIcon from "../../../assets/icons/EditIcon";
 import { rowEditingActions } from "../../../store/rowEditingSlice";
@@ -12,13 +13,14 @@ const useStyle = makeStyles(theme => ({
 
 const DataTableActionCell = props => {
   const classes = useStyle();
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
+  const { id, deleteRow, startEditRow } = props;
 
   const handleDelete = () => {
-    dispatch(rowActions.deleteRow(props.id));
+    deleteRow(id);
   };
   const handleEdit = () => {
-    dispatch(rowEditingActions.startEditRow(props.id));
+    startEditRow(id);
   };
 
   return (
@@ -39,4 +41,7 @@ const DataTableActionCell = props => {
   );
 };
 
-export default DataTableActionCell;
+export default connect(null, {
+  deleteRow: rowActions.deleteRow,
+  startEditRow: rowEditingActions.startEditRow,
+})(DataTableActionCell);

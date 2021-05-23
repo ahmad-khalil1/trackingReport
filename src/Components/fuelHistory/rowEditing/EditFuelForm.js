@@ -8,9 +8,15 @@ import {
 import { ExpandMore } from "@material-ui/icons";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import { useDispatch, useSelector } from "react-redux";
+// import { useDispatch, useSelector } from "react-redux";
+import { connect } from "react-redux";
 import { rowEditingActions } from "../../../store/rowEditingSlice";
 import { rowActions } from "../../../store/rowSlice";
+import {
+  getCurrentEditRowID,
+  gitCurrentEditRow,
+} from "../../../store/selectors";
+
 import TextField from "../../UI/dataTableUI/FormTextField";
 
 const vehiclesArray = [
@@ -53,37 +59,36 @@ const getDateForm = date => {
   return `${date.getFullYear()}-${month}-${day}`;
 };
 
-const EditFuelForm = _ => {
-  const currentRowID = useSelector(state => state.rowEdit.currentEditingRowID);
-  const currentEditeRow = useSelector(state =>
-    state.rows.rows.find(row => row.id === currentRowID)
-  );
+const EditFuelForm = props => {
+  const { currentRowID, currentEditRow, editRow, resetEditRow } = props;
+  // const currentRowID = useSelector(state => state.rowEdit.currentEditingRowID);
+  // const currentEditRow = useSelector(state =>
+  //   state.rows.rows.find(row => row.id === currentRowID)
+  // );
 
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const classes = useStyles();
 
   const handleSubmision = values => {
     // alert(JSON.stringify(values, null, 2));
-    dispatch(
-      rowActions.editRow({
-        editedRowID: currentRowID,
-        editedRow: {
-          name: values.vehicles,
-          date: new Date(values.startDate),
-          totalKm: `${values.odometer} km`,
-          volume: `${values.volume} L`,
-        },
-      })
-    );
-    dispatch(rowEditingActions.resetEditRow());
+    editRow({
+      editedRowID: currentRowID,
+      editedRow: {
+        name: values.vehicles,
+        date: new Date(values.startDate),
+        totalKm: `${values.odometer} km`,
+        volume: `${values.volume} L`,
+      },
+    });
+    resetEditRow();
   };
 
   const formik = useFormik({
     initialValues: {
-      vehicles: currentEditeRow.name,
-      startDate: getDateForm(currentEditeRow.date),
-      odometer: Number(currentEditeRow.totalKm.split(" ")[0]),
-      volume: Number(currentEditeRow.volume.split(" ")[0]),
+      vehicles: currentEditRow.name,
+      startDate: getDateForm(currentEditRow.date),
+      odometer: Number(currentEditRow.totalKm.split(" ")[0]),
+      volume: Number(currentEditRow.volume.split(" ")[0]),
       fuelType: "",
     },
     validationSchema: validationSchema,
@@ -231,5 +236,14 @@ const EditFuelForm = _ => {
     </form>
   );
 };
+const mapStateToProps = state => {
+  return {
+    currentRowID: getCurrentEditRowID(state),
+    currentEditRow: gitCurrentEditRow(state),
+  };
+};
 
-export default EditFuelForm;
+export default connect(mapStateToProps, {
+  editRow: rowActions.editRow,
+  resetEditRow: rowEditingActions.resetEditRow,
+})(EditFuelForm);
