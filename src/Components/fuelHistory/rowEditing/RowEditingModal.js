@@ -10,11 +10,13 @@ import MuiDialogTitle from "@material-ui/core/DialogTitle";
 import MuiDialogContent from "@material-ui/core/DialogContent";
 import MuiDialogActions from "@material-ui/core/DialogActions";
 import CloseIcon from "@material-ui/icons/Close";
-import { connect } from "react-redux";
-// import {  useDispatch, useSelector } from "react-redux";
-import { rowEditingActions } from "../../../store/rowEditingSlice";
-import { getEditingState } from "../../../store/selectors";
 import EditFuelForm from "./EditFuelForm";
+
+// import {  useDispatch, useSelector } from "react-redux";
+// import { rowEditingActions } from "../../../store/rowEditingSlice";
+import { connect } from "react-redux";
+import { getEditingState } from "../../../store/selectors";
+import { resetEditRow } from "../../../store/actions";
 
 const styles = theme => ({
   root: {
@@ -114,5 +116,5 @@ const mapStateToProps = state => {
   return { isEditing: getEditingState(state) };
 };
 export default connect(mapStateToProps, {
-  resetEditRow: rowEditingActions.resetEditRow,
+  resetEditRow,
 })(RowEditingModal);

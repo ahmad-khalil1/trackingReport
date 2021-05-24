@@ -3,11 +3,11 @@ export const getRowsState = state => {
 };
 
 export const getEditingState = state => {
-  return state.rowEdit.isEditing;
+  return state.rowEditing.isEditing;
 };
 
 export const getCurrentEditRowID = state => {
-  return state.rowEdit.currentEditingRowID;
+  return state.rowEditing.currentEditingRowID;
 };
 
 export const gitCurrentEditRow = state => {

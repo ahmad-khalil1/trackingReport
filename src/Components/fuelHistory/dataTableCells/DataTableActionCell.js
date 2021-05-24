@@ -1,10 +1,12 @@
 import { IconButton, makeStyles } from "@material-ui/core";
-// import { useDispatch } from "react-redux";
-import { connect } from "react-redux";
 import DeleteIcon from "../../../assets/icons/DeleteIcon";
 import EditIcon from "../../../assets/icons/EditIcon";
-import { rowEditingActions } from "../../../store/rowEditingSlice";
-import { rowActions } from "../../../store/rowSlice";
+
+// import { useDispatch } from "react-redux";
+// import { rowEditingActions } from "../../../store/rowEditingSlice";
+// import { rowActions } from "../../../store/rowSlice";
+import { connect } from "react-redux";
+import { deleteRow, startEditRow } from "../../../store/actions";
 
 const useStyle = makeStyles(theme => ({
   iconRedColor: { color: "#FE4D5C" },
@@ -42,6 +44,6 @@ const DataTableActionCell = props => {
 };
 
 export default connect(null, {
-  deleteRow: rowActions.deleteRow,
-  startEditRow: rowEditingActions.startEditRow,
+  deleteRow,
+  startEditRow,
 })(DataTableActionCell);

@@ -6,18 +6,20 @@ import {
   Typography,
 } from "@material-ui/core";
 import { ExpandMore } from "@material-ui/icons";
+import TextField from "../../UI/dataTableUI/FormTextField";
+
 import { useFormik } from "formik";
 import * as yup from "yup";
+
 // import { useDispatch, useSelector } from "react-redux";
+// import { rowEditingActions } from "../../../store/rowEditingSlice";
+// import { rowActions } from "../../../store/rowSlice";
 import { connect } from "react-redux";
-import { rowEditingActions } from "../../../store/rowEditingSlice";
-import { rowActions } from "../../../store/rowSlice";
 import {
   getCurrentEditRowID,
   gitCurrentEditRow,
 } from "../../../store/selectors";
-
-import TextField from "../../UI/dataTableUI/FormTextField";
+import { editRow, resetEditRow } from "../../../store/actions";
 
 const vehiclesArray = [
   "Toyota auris",
@@ -244,6 +246,6 @@ const mapStateToProps = state => {
 };
 
 export default connect(mapStateToProps, {
-  editRow: rowActions.editRow,
-  resetEditRow: rowEditingActions.resetEditRow,
+  editRow,
+  resetEditRow,
 })(EditFuelForm);

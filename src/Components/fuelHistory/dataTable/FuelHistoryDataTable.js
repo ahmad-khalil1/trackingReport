@@ -3,13 +3,14 @@ import FuelHistoryToolBar from "./FuelHistoryToolBar";
 import { makeStyles, TableContainer, Table, Paper } from "@material-ui/core";
 import { useState } from "react";
 import FuelHistryTableBody from "./FuelHistryTableBody";
-import { connect } from "react-redux";
+import RowEditingModal from "../rowEditing/RowEditingModal";
+
 // import { useSelector } from "react-redux";
 // import { useDispatch } from "react-redux";
+// import { rowActions } from "../../../store/rowSlice";
+import { connect } from "react-redux";
 import { getRowsState } from "../../../store/selectors";
-
-import { rowActions } from "../../../store/rowSlice";
-import RowEditingModal from "../rowEditing/RowEditingModal";
+import { sortRows } from "../../../store/actions";
 
 // table custom styles
 const useStyles = makeStyles(theme => ({
@@ -87,6 +88,4 @@ const FuelHistoryDataTable = props => {
 const mapStateToProps = state => {
   return { rows: getRowsState(state) };
 };
-export default connect(mapStateToProps, { sortRows: rowActions.sortRows })(
-  FuelHistoryDataTable
-);
+export default connect(mapStateToProps, { sortRows })(FuelHistoryDataTable);
