@@ -1,7 +1,7 @@
 import { useState } from "react";
 import {
   AppBar,
-  makeStyles,
+  withStyles,
   Avatar,
   Grid,
   Toolbar,
@@ -9,13 +9,15 @@ import {
   Divider,
   IconButton,
 } from "@material-ui/core";
+import PropTypes from "prop-types";
 import profileImage from "../../../assets/Navigation/profileImage.png";
 import MenuIcon from "@material-ui/icons/Menu";
+import React from "react";
 
 const sideNavBarWidth = 242;
 
 // custom Styles
-const useStyles = makeStyles(theme => {
+const styles = theme => {
   return {
     appBar: {
       [theme.breakpoints.up("sm")]: {
@@ -38,40 +40,52 @@ const useStyles = makeStyles(theme => {
       },
     },
   };
-});
-
-const TopNavBar = props => {
-  const styleClasses = useStyles();
-
-  return (
-    <AppBar className={styleClasses.appBar} elevation={0}>
-      <Toolbar>
-        <Grid container alignItems='center' spacing={0} justify='space-between'>
-          <Grid container alignItems='center' justify='flex-start' xs={11}>
-            {" "}
-            <IconButton
-              color='inherit'
-              aria-label='open drawer'
-              edge='start'
-              onClick={props.handleDrawerToggle}
-              className={styleClasses.menuButton}
-            >
-              <MenuIcon />
-            </IconButton>
-            <Typography className={styleClasses.typography}>
-              PLN Asset Management System
-            </Typography>
-          </Grid>
-          <Grid item xs={1} md='auto'>
-            <Avatar
-              classes={{ circle: styleClasses.avatarCircleOvarLay }}
-              src={profileImage}
-            />
-          </Grid>
-        </Grid>
-      </Toolbar>
-      <Divider />
-    </AppBar>
-  );
 };
-export default TopNavBar;
+
+class TopNavBar extends React.Component {
+  render() {
+    const { classes: styleClasses } = this.props;
+    return (
+      <AppBar className={styleClasses.appBar} elevation={0}>
+        <Toolbar>
+          <Grid
+            container
+            alignItems='center'
+            spacing={0}
+            justify='space-between'
+          >
+            <Grid container alignItems='center' justify='flex-start' xs={11}>
+              {" "}
+              <IconButton
+                color='inherit'
+                aria-label='open drawer'
+                edge='start'
+                onClick={this.props.handleDrawerToggle}
+                className={styleClasses.menuButton}
+              >
+                <MenuIcon />
+              </IconButton>
+              <Typography className={styleClasses.typography}>
+                PLN Asset Management System
+              </Typography>
+            </Grid>
+            <Grid item xs={1} md='auto'>
+              <Avatar
+                classes={{ circle: styleClasses.avatarCircleOvarLay }}
+                src={profileImage}
+              />
+            </Grid>
+          </Grid>
+        </Toolbar>
+        <Divider />
+      </AppBar>
+    );
+  }
+}
+// export default TopNavBar;
+
+TopNavBar.propTypes = {
+  classes: PropTypes.object.isRequired,
+};
+
+export default withStyles(styles)(TopNavBar);

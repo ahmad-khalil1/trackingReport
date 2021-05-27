@@ -1,12 +1,13 @@
 // import { List } from "@material-ui/core"
 import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
+import PropTypes from "prop-types";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import { NavLink } from "react-router-dom";
+import { withStyles } from "@material-ui/core";
 
-const useStyle = makeStyles(theme => {
+const styles = theme => {
   return {
     iconStyle: {
       color: "inherit",
@@ -24,13 +25,12 @@ const useStyle = makeStyles(theme => {
       "& span": { fontWeight: "bold" },
     },
   };
-});
+};
 
-const NavLinkListItem = props => {
-  const classes = useStyle();
-  const { icon, title, to, activeClassName, className } = props;
-  const renderNavLink = React.useMemo(
-    () =>
+class NavLinkListItem extends React.Component {
+  render() {
+    const { icon, title, to, activeClassName, className, classes } = this.props;
+    const renderNavLink = React.memo(
       React.forwardRef((itemProps, ref) => (
         <NavLink
           activeClassName={classes.navLinkActiveClass}
@@ -38,23 +38,28 @@ const NavLinkListItem = props => {
           ref={ref}
           {...itemProps}
         />
-      )),
-    [to]
-  );
-  return (
-    <li>
-      <ListItem
-        className={`${className} ${classes.listItems}`}
-        alignItems='flex-start'
-        button
-        component={renderNavLink}
-      >
-        {icon ? (
-          <ListItemIcon className={classes.iconStyle}>{icon}</ListItemIcon>
-        ) : null}
-        <ListItemText primary={title} />
-      </ListItem>
-    </li>
-  );
+      ))
+    );
+    return (
+      <li>
+        <ListItem
+          className={`${className} ${classes.listItems}`}
+          alignItems='flex-start'
+          button
+          component={renderNavLink}
+        >
+          {icon ? (
+            <ListItemIcon className={classes.iconStyle}>{icon}</ListItemIcon>
+          ) : null}
+          <ListItemText primary={title} />
+        </ListItem>
+      </li>
+    );
+  }
+}
+
+NavLinkListItem.propTypes = {
+  classes: PropTypes.object.isRequired,
 };
-export default NavLinkListItem;
+
+export default withStyles(styles)(NavLinkListItem);
