@@ -1,5 +1,6 @@
-import { useState } from "react";
-import { makeStyles, Paper, Typography } from "@material-ui/core";
+import React, { useState } from "react";
+import PropTypes from "prop-types";
+import { makeStyles, Paper, Typography, withStyles } from "@material-ui/core";
 import {
   Accordion,
   AccordionDetails,
@@ -12,82 +13,109 @@ import PeopleIcon from "../../../../assets/Navigation/icons/PeopleIcon";
 import ReportNavList from "./ReportNavList";
 
 // custom Style
-const useStyles = makeStyles(theme => {
+// const useStyles = makeStyles(theme => {
+//   return {
+//     typographyRoot: {
+//       marginLeft: "18px",
+//     },
+//   };
+// });
+
+const styles = theme => {
   return {
     typographyRoot: {
       marginLeft: "18px",
     },
   };
-});
+};
 
-const SideNavList = props => {
-  const styleClasses = useStyles();
-  const [expanded, setExpanded] = useState("report");
+class SideNavList extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { expanded: "report" };
+    this.handleChange = this.handleChange.bind(this);
+  }
+  // styleClasses = useStyles();
+  // const [expanded, setExpanded] = useState("report");
 
   // handle accordion state
-  const handleChange = panel => (event, newExpanded) => {
-    setExpanded(newExpanded ? panel : false);
+  handleChange = panel => (event, newExpanded) => {
+    this.setState(newExpanded ? panel : false);
   };
+  render() {
+    const { classes: styleClasses } = this.props;
+    return (
+      <Paper elevation={0}>
+        {/* VEHICLES ACCORDION ITEM */}
 
-  return (
-    <Paper elevation={0}>
-      {/* VEHICLES ACCORDION ITEM */}
-
-      <Accordion
-        square
-        expanded={expanded === "vehicle"}
-        onChange={handleChange("vehicle")}
-      >
-        <AccordionSummary
-          aria-controls='vehicleID-content'
-          id='vehicleID-header'
+        <Accordion
+          square
+          expanded={this.state.expanded === "vehicle"}
+          onChange={this.handleChange("vehicle")}
         >
-          <VehiclesIcon />
-          <Typography className={styleClasses.typographyRoot}>
-            VEHICLES
-          </Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-          <Typography>Lorem ipsum</Typography>
-        </AccordionDetails>
-      </Accordion>
+          <AccordionSummary
+            aria-controls='vehicleID-content'
+            id='vehicleID-header'
+          >
+            <VehiclesIcon />
+            <Typography className={styleClasses.typographyRoot}>
+              VEHICLES
+            </Typography>
+          </AccordionSummary>
+          <AccordionDetails>
+            <Typography>Lorem ipsum</Typography>
+          </AccordionDetails>
+        </Accordion>
 
-      {/* REPORT ACCORDION ITEM */}
+        {/* REPORT ACCORDION ITEM */}
 
-      <Accordion
-        square
-        expanded={expanded === "report"}
-        onChange={handleChange("report")}
-      >
-        <AccordionSummary aria-controls='reportID-content' id='reportID-header'>
-          <ReportIcon />
-          <Typography className={styleClasses.typographyRoot}>
-            REPORT
-          </Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-          <ReportNavList />
-        </AccordionDetails>
-      </Accordion>
+        <Accordion
+          square
+          expanded={this.state.expanded === "report"}
+          onChange={this.handleChange("report")}
+        >
+          <AccordionSummary
+            aria-controls='reportID-content'
+            id='reportID-header'
+          >
+            <ReportIcon />
+            <Typography className={styleClasses.typographyRoot}>
+              REPORT
+            </Typography>
+          </AccordionSummary>
+          <AccordionDetails>
+            <ReportNavList />
+          </AccordionDetails>
+        </Accordion>
 
-      {/* PEOPLE ACCORDION ITEM */}
+        {/* PEOPLE ACCORDION ITEM */}
 
-      <Accordion
-        square
-        expanded={expanded === "people"}
-        onChange={handleChange("people")}
-      >
-        <AccordionSummary aria-controls='peopleID-content' id='peopleID-header'>
-          <PeopleIcon />
-          <Typography className={styleClasses.typographyRoot}>
-            PEOPLE
-          </Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-          <Typography>Lorem ipsum</Typography>
-        </AccordionDetails>
-      </Accordion>
-    </Paper>
-  );
+        <Accordion
+          square
+          expanded={this.state.expanded === "people"}
+          onChange={this.handleChange("people")}
+        >
+          <AccordionSummary
+            aria-controls='peopleID-content'
+            id='peopleID-header'
+          >
+            <PeopleIcon />
+            <Typography className={styleClasses.typographyRoot}>
+              PEOPLE
+            </Typography>
+          </AccordionSummary>
+          <AccordionDetails>
+            <Typography>Lorem ipsum</Typography>
+          </AccordionDetails>
+        </Accordion>
+      </Paper>
+    );
+  }
+}
+// export default SideNavList;
+
+SideNavList.propTypes = {
+  classes: PropTypes.object.isRequired,
 };
-export default SideNavList;
+
+export default withStyles(styles)(SideNavList);
